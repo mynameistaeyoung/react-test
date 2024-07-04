@@ -1,24 +1,53 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [contents, setContents] = useState('')
+
+  const [todo, setTodo] = useState([
+    { id: 1, push: '리액트를 공부하자!' },
+    { id: 2, push: 'js를 공부하자!'},
+  ])
+
+  const onChangeTodoHandler = (event) => {
+    setContents(event.target.value)
+  }
+
+  const onClickButtonHandler = () => {
+    const AddNewTodo = {
+      id: todo.length + 1,
+      push: contents.trim(),
+    }
+    setTodo([...todo, AddNewTodo])
+    setContents('')
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='header'>
+        <input
+          type='text'
+          value={contents}
+          onChange={onChangeTodoHandler} />
+        <button onClick={onClickButtonHandler}>추가하기</button>
+        <br/>
+        <h1>Todo List</h1>
+      </div>
+      <div>
+        <form className='app-style'>
+          {
+            todo.map(item => {
+              return (
+                <div key={item.id} className='form'>
+                  {item.push}
+                  </div>
+              )
+            })
+          }
+
+        </form>
+      </div>
+    </>
   );
 }
 
